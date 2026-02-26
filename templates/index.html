@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Starlink RDC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>STARLINK</h1>
+                <span class="subtitle">Revendeur RDC</span>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h2>Internet Haut Débit</h2>
+            <p>Choisissez votre forfait Starlink avec Airtel Money</p>
+        </section>
+
+        <section class="plans">
+            <h3>Choisissez Votre Forfait</h3>
+            <div class="plans-grid">
+                {% for id, plan in plans.items() %}
+                <div class="plan-card">
+                    <h4>{{ plan.name }}</h4>
+                    <p class="plan-description">{{ plan.desc }}</p>
+                    <div class="plan-price">{{ plan.price }}</div>
+                    <a href="/payment?plan={{ id }}" class="btn-select">Sélectionner</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</body>
+</html>

