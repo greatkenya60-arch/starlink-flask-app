@@ -1,4 +1,4 @@
 flask
 gunicorn
 requests
-psycopg[binary,pool]   # No == version → gets latest (3.3.3+), which has Python 3.14 wheels
+psycopg[binary,pool]>=3.2

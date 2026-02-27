@@ -2,6 +2,6 @@ services:
   - type: web
     name: starlink-flask-app
     env: python
-    pythonVersion: 3.12.7          # ← stable, has binary wheels
+    pythonVersion: 3.12.7           # ← or 3.11.9 – avoids 3.14 problems
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn flask_app:app --bind 0.0.0.0:$PORT
