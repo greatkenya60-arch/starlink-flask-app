@@ -1,5 +1,4 @@
-Flask==3.0.2
-gunicorn==21.2.0
-psycopg[binary]==3.1.8
-requests==2.31.0
-setuptools>=65.5.0
+flask==3.0.3          # or whatever version you prefer; latest is fine
+gunicorn==23.0.0      # recent stable
+requests==2.32.3
+psycopg[binary]==3.2.3   # <-- This is Psycopg 3 with pre-built binary (no compilation needed)
