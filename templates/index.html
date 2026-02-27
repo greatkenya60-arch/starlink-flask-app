@@ -1,36 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Starlink RDC</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARLINK | Revendeur RDC</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <h1>STARLINK</h1>
-                <span class="subtitle">Revendeur RDC</span>
+
+    <!-- Barre de navigation noire -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>STARLINK</span>
+                <span class="nav-subtitle">Revendeur RDC</span>
             </div>
+            <div class="nav-links">
+                <a href="#">Statut</a>
+                <a href="#">Forfaits</a>
+                <a href="#">Commandes</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section principale -->
+    <div class="container">
+        <header class="hero-header">
+            <h1>Internet Haut Débit</h1>
+            <p>Choisissez votre forfait Starlink et renouvelez-le instantanément avec Airtel Money.</p>
         </header>
 
-        <section class="hero">
-            <h2>Internet Haut Débit</h2>
-            <p>Choisissez votre forfait Starlink avec Airtel Money</p>
-        </section>
+        <section class="plans-section">
+            <h2>Choisissez Votre Forfait</h2>
 
-        <section class="plans">
-            <h3>Choisissez Votre Forfait</h3>
             <div class="plans-grid">
                 {% for id, plan in plans.items() %}
                 <div class="plan-card">
-                    <h4>{{ plan.name }}</h4>
-                    <p class="plan-description">{{ plan.desc }}</p>
+                    <div class="plan-header">
+                        <h3>{{ plan.name }}</h3>
+                        <span class="data-badge">{{ plan.data }}</span>
+                    </div>
+                    <p class="plan-desc">
+                        {{ plan.desc or "Idéal pour une utilisation légère" if id == 1 else "Parfait pour le streaming" if id == 2 else "Pour toute la famille" }}
+                    </p>
                     <div class="plan-price">{{ plan.price }}</div>
                     <a href="/payment?plan={{ id }}" class="btn-select">Sélectionner</a>
                 </div>
                 {% endfor %}
             </div>
         </section>
+
+        <!-- Footer noir -->
+        <footer class="footer">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>STARLINK RDC</h4>
+                    <p>Revendeur agréé de forfaits de données pour les services Starlink en RDC. Paiements rapides, fiables et sécurisés via Airtel Money.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>SUPPORT</h4>
+                    <p>Email: support@starlinkrdc.reseller</p>
+                    <p>Disponible 24h/24, 7j/7 pour l'assistance technique.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>PAIEMENT</h4>
+                    <p>Payez en toute sécurité avec Airtel Money. Assurez-vous d'avoir un solde suffisant pour le forfait sélectionné.</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                © 2026 Starlink RDC Reseller. Tous droits réservés.
+            </div>
+        </footer>
     </div>
+
 </body>
 </html>

