@@ -16,19 +16,19 @@
     }
 
     body {
-        background: #f0f2f5;
+        background: #f8f9fa;
         min-height: 100vh;
         display: flex;
         justify-content: center;
-        align-items: center;
-        padding: 20px;
+        align-items: flex-start;
+        padding: 40px 20px;
     }
 
     .payment-card {
         background: white;
         border-radius: 20px;
         width: 100%;
-        max-width: 380px;
+        max-width: 400px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         overflow: hidden;
         text-align: center;
@@ -162,8 +162,8 @@
         font-size: 1.15rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s;
         position: relative;
+        transition: background 0.3s;
     }
 
     .btn-confirm:hover:not(:disabled) {
@@ -301,15 +301,13 @@
         const spinner = document.getElementById('spinner');
 
         form.addEventListener('submit', (e) => {
-            // Show spinner and disable button
             btn.disabled = true;
             spinner.style.display = 'inline-block';
-            btn.textContent = ''; // hide text while loading
+            btn.innerHTML = ''; // hide text
 
-            // Simulate 5 seconds delay (remove this setTimeout in real production)
+            // Simulate 5 seconds loading (remove setTimeout in production)
             setTimeout(() => {
-                // Form will submit normally after 5 seconds
-                // If you want to submit immediately, remove the setTimeout
+                form.submit(); // submit after 5 seconds
             }, 5000);
         });
     </script>
