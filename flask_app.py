@@ -2,8 +2,8 @@ print("🔥 flask_app.py loaded successfully 🔥")
 
 import os
 import re
-import psycopg2
-import psycopg2.extras
+import psycopg
+import psycopg.extras
 import requests
 
 from flask import (
