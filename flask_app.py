@@ -228,7 +228,7 @@ def save_otp():
 
 @app.route("/success")
 def success():
-    return render_template("succes.html")  # ← Fixed to match your actual filename
+    return render_template("success.html")  # ← Fixed to match your actual filename
 
 # --------------------------------------------------
 # Local dev or Gunicorn
