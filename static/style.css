@@ -6,15 +6,14 @@
 }
 
 body {
-    background: #f5f5f5;
-    color: #333;
+    background: linear-gradient(135deg, #6a48d9 0%, #9d50bb 100%); /* purple gradient from screenshots */
     min-height: 100vh;
+    color: #333;
 }
 
-/* ─── Navbar (black top bar) ──────────────────────────────────────── */
+/* Black Navbar */
 .navbar {
     background: #000;
-    color: white;
     padding: 12px 0;
     position: sticky;
     top: 0;
@@ -28,23 +27,18 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: white;
 }
 
-.nav-logo {
-    font-size: 1.4rem;
+.nav-title {
+    font-size: 1.5rem;
     font-weight: bold;
-}
-
-.nav-subtitle {
-    font-size: 0.9rem;
-    color: #aaa;
-    margin-left: 8px;
 }
 
 .nav-links a {
     color: white;
     text-decoration: none;
-    margin-left: 28px;
+    margin-left: 25px;
     font-size: 0.95rem;
 }
 
@@ -52,77 +46,66 @@ body {
     color: #00aaff;
 }
 
-/* ─── Main container ──────────────────────────────────────────────── */
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* ─── Blue hero banner ────────────────────────────────────────────── */
-.hero-header {
-    background: #0055ff;
+/* Purple Hero Banner */
+.hero-banner {
+    background: #5e3ab7; /* purple-blue from screenshots */
     color: white;
     text-align: center;
     padding: 60px 20px 40px;
 }
 
-.hero-header h1 {
+.hero-banner h1 {
     font-size: 2.8rem;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
-.hero-header p {
+.hero-banner p {
     font-size: 1.25rem;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    opacity: 0.95;
 }
 
-/* ─── Plans section ───────────────────────────────────────────────── */
+/* Plans Section */
 .plans-section {
-    padding: 50px 0;
-    background: white;
+    padding: 50px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .plans-section h2 {
     text-align: center;
+    color: white;
     font-size: 2.2rem;
     margin-bottom: 40px;
-    color: #333;
 }
 
 .plans-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .plan-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .plan-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
 }
 
 .plan-header {
-    background: #0055ff;
+    background: #0055ff; /* blue header */
     color: white;
-    padding: 28px 20px 18px;
-    position: relative;
+    padding: 30px 20px 20px;
 }
 
 .plan-header h3 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     margin: 0 0 12px;
 }
 
@@ -130,48 +113,48 @@ body {
     background: white;
     color: #0055ff;
     font-weight: bold;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 30px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     display: inline-block;
 }
 
 .plan-desc {
-    padding: 24px 20px 20px;
+    padding: 20px;
     font-size: 1.05rem;
-    color: #444;
-    min-height: 80px;
+    color: #555;
+    min-height: 70px;
 }
 
 .plan-price {
-    font-size: 2.1rem;
+    font-size: 2.4rem;
     font-weight: bold;
     color: #0055ff;
-    margin: 20px 0 28px;
+    margin: 20px 0 30px;
 }
 
 .btn-select {
     display: block;
     background: #0055ff;
     color: white;
-    text-align: center;
-    padding: 16px;
-    font-size: 1.15rem;
+    padding: 18px;
+    font-size: 1.2rem;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 12px 12px;
     transition: background 0.3s;
 }
 
 .btn-select:hover {
-    background: #0044cc;
+    background: #0040cc;
 }
 
-/* ─── Footer (black) ──────────────────────────────────────────────── */
+/* Footer (purple) */
 .footer {
-    background: #000;
+    background: #5e3ab7; /* purple from screenshots */
     color: white;
     padding: 60px 20px 30px;
+    text-align: center;
 }
 
 .footer-columns {
@@ -185,72 +168,38 @@ body {
 .footer-column h4 {
     font-size: 1.3rem;
     margin-bottom: 16px;
-    color: #00aaff;
+    color: #fff;
 }
 
 .footer-column p {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #ccc;
 }
 
 .copyright {
-    text-align: center;
     padding-top: 30px;
-    border-top: 1px solid #222;
+    border-top: 1px solid rgba(255,255,255,0.15);
     font-size: 0.9rem;
-    color: #888;
+    opacity: 0.9;
 }
 
-/* ─── Responsive ──────────────────────────────────────────────────── */
+/* Responsive */
 @media (max-width: 1024px) {
-    .hero-header h1 { font-size: 2.4rem; }
-    .hero-header p  { font-size: 1.15rem; }
-    .plans-grid     { gap: 24px; }
+    .hero-banner h1 { font-size: 2.4rem; }
+    .plans-grid { gap: 24px; }
 }
 
 @media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .nav-links a {
-        margin-left: 0;
-        margin-right: 20px;
-    }
-
-    .hero-header {
-        padding: 50px 16px 30px;
-    }
-
-    .hero-header h1 {
-        font-size: 2.1rem;
-    }
-
-    .plans-section {
-        padding: 40px 0;
-    }
-
-    .plan-header h3 {
-        font-size: 1.4rem;
-    }
-
-    .plan-price {
-        font-size: 1.9rem;
-    }
+    .nav-container { flex-direction: column; gap: 10px; text-align: center; }
+    .nav-links a { margin: 0 12px; }
+    .hero-banner { padding: 50px 16px 30px; }
+    .plans-section { padding: 40px 16px; }
+    .plan-card { margin: 0 8px; }
 }
 
 @media (max-width: 480px) {
-    .hero-header h1 {
-        font-size: 1.8rem;
-    }
-
-    .plans-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .plan-card {
-        margin: 0 8px;
-    }
+    .hero-banner h1 { font-size: 2rem; }
+    .plan-header h3 { font-size: 1.5rem; }
+    .plan-price { font-size: 2rem; }
+    .btn-select { font-size: 1.1rem; padding: 16px; }
 }
