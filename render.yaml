@@ -2,6 +2,9 @@ services:
   - type: web
     name: starlink-flask-app
     env: python
-    pythonVersion: 3.12.7       # or 3.11.9 – both work well
-    buildCommand: pip install -r requirements.txt
+    pythonVersion: 3.14.3     # Or keep whatever it defaults to
+    buildCommand: |
+      apt-get update && apt-get install -y --no-install-recommends \
+        build-essential libpq-dev python3-dev
+      pip install -r requirements.txt
     startCommand: gunicorn flask_app:app --bind 0.0.0.0:$PORT

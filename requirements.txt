@@ -1,4 +1,4 @@
-flask==3.0.3          # or whatever version you prefer; latest is fine
-gunicorn==23.0.0      # recent stable
-requests==2.32.3
-psycopg[binary]==3.2.3   # <-- This is Psycopg 3 with pre-built binary (no compilation needed)
+flask
+gunicorn
+requests
+psycopg[binary,pool]   # No == version → gets latest (3.3.3+), which has Python 3.14 wheels
